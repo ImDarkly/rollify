@@ -164,7 +164,6 @@ const AddDiceDrawer = ({
             <div className="flex flex-row gap-2 px-4">
                 <Input
                     placeholder="Minimal value"
-                    autoFocus
                     value={minValue}
                     onChange={(e) => setMinValue(e.target.value)}
                 />
