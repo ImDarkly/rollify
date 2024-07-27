@@ -17,7 +17,6 @@ const AddDice = () => {
     const [maxValue, setMaxValue] = useState("");
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [open, setOpen] = useState(false);
-    const [error, setError] = useState("");
 
     const setDiceRange = useDiceStore((state) => state.setDiceRange);
 
@@ -25,16 +24,9 @@ const AddDice = () => {
         if (minValue !== "" && maxValue !== "") {
             const min = parseInt(minValue, 10);
             const max = parseInt(maxValue, 10);
-            if (max <= min) {
-                setError("Maximum value must be greater than minimum value.");
-                setIsButtonDisabled(true);
-            } else {
-                setError("");
-                setIsButtonDisabled(false);
-            }
+            setIsButtonDisabled(max <= min);
         } else {
             setIsButtonDisabled(true);
-            setError("");
         }
     }, [minValue, maxValue]);
 
@@ -77,7 +69,6 @@ const AddDice = () => {
                         onChange={(e) => setMaxValue(e.target.value)}
                     />
                 </div>
-                {error && <div className="text-red-500 mt-2">{error}</div>}
                 <div className="flex justify-end mt-4">
                     <Button onClick={handleAdd} disabled={isButtonDisabled}>
                         Add
