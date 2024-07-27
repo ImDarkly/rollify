@@ -2,7 +2,6 @@ import "./App.css";
 import AddDice from "./components/add-dice";
 import BottomBar from "./components/bottom-bar";
 import Dice from "./components/dice";
-import { Toaster } from "@/components/ui/sonner";
 import useDiceStore from "@/zustand/store";
 
 function App() {
@@ -27,8 +26,6 @@ function App() {
                 <AddDice />
             </div>
             <BottomBar />
-
-            <Toaster position="top-center" richColors theme="light" />
         </div>
     );
 }
