@@ -14,9 +14,13 @@ const BottomBar = () => {
         });
     };
 
+    const noDicesAvailable = Object.keys(dice).length === 0;
+
     return (
         <div className="w-full h-24 bg-gradient-to-t from-slate-50 to-transparent absolute left-0 bottom-0 flex flex-row justify-center items-center">
-            <Button onClick={handleRoll}>Roll</Button>
+            <Button onClick={handleRoll} disabled={noDicesAvailable}>
+                Roll
+            </Button>
         </div>
     );
 };
