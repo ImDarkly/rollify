@@ -10,7 +10,6 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "./ui/input";
-import { toast } from "sonner";
 import useDiceStore from "@/zustand/store";
 
 const AddDice = () => {
