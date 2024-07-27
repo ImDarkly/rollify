@@ -14,7 +14,7 @@ function App() {
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
             <div className="h-svh flex flex-col items-center">
                 <TopBar />
-                <div className="flex-grow flex flex-wrap justify-center items-center content-center gap-2 overflow-auto max-w-screen-lg p-4">
+                <div className="flex-grow flex flex-wrap justify-center items-center content-center gap-2 overflow-hidden max-w-screen-lg p-4">
                     <AnimatePresence>
                         {Object.keys(dice).map((key) => {
                             const diceId = parseInt(key, 10); // Convert key to a number
