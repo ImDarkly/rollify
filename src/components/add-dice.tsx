@@ -1,5 +1,3 @@
-// AddDice.tsx
-
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Icon } from "@iconify/react";
@@ -48,7 +46,9 @@ const AddDice = () => {
 
     useEffect(() => {
         if (minValue !== "" && maxValue !== "") {
-            if (parseInt(maxValue) <= parseInt(minValue)) {
+            const min = parseInt(minValue, 10);
+            const max = parseInt(maxValue, 10);
+            if (max <= min) {
                 toast.error(
                     "Maximum value must be greater than minimum value."
                 );
@@ -62,8 +62,8 @@ const AddDice = () => {
     }, [minValue, maxValue]);
 
     const handleAdd = () => {
-        const min = parseInt(minValue);
-        const max = parseInt(maxValue);
+        const min = parseInt(minValue, 10);
+        const max = parseInt(maxValue, 10);
         setDiceRange(min, max);
         setMinValue("");
         setMaxValue("");
@@ -119,11 +119,13 @@ const AddDiceDialog = ({
             </DialogHeader>
             <div className="flex flex-row gap-2">
                 <Input
+                    type="number"
                     placeholder="Minimal value"
                     value={minValue}
                     onChange={(e) => setMinValue(e.target.value)}
                 />
                 <Input
+                    type="number"
                     placeholder="Maximum value"
                     value={maxValue}
                     onChange={(e) => setMaxValue(e.target.value)}
@@ -163,11 +165,13 @@ const AddDiceDrawer = ({
             </DrawerHeader>
             <div className="flex flex-row gap-2 px-4">
                 <Input
+                    type="number"
                     placeholder="Minimal value"
                     value={minValue}
                     onChange={(e) => setMinValue(e.target.value)}
                 />
                 <Input
+                    type="number"
                     placeholder="Maximum value"
                     value={maxValue}
                     onChange={(e) => setMaxValue(e.target.value)}
