@@ -10,7 +10,7 @@ function App() {
 
     return (
         <div className="h-screen flex flex-col items-center">
-            <div className="flex-grow flex flex-wrap justify-center items-center content-center gap-2 overflow-auto max-w-screen-lg">
+            <div className="flex-grow flex flex-wrap justify-center items-center content-center gap-2 overflow-auto max-w-screen-lg p-4">
                 {Object.keys(dice).map((key) => {
                     const diceId = parseInt(key, 10); // Convert key to a number
                     const { min, max, value } = dice[diceId];
