@@ -6,6 +6,7 @@ import useDiceStore from "@/zustand/store";
 import { ThemeProvider } from "@/components/theme-provider";
 import TopBar from "./components/top-bar";
 import { AnimatePresence, motion } from "framer-motion";
+import { Toaster } from "./components/ui/toaster";
 
 function App() {
     const dice = useDiceStore((state) => state.dice);
@@ -18,7 +19,7 @@ function App() {
                     <AnimatePresence>
                         {Object.keys(dice).map((key) => {
                             const diceId = parseInt(key, 10); // Convert key to a number
-                            const { min, max, value } = dice[diceId];
+                            const { min, max, value, isLocked } = dice[diceId];
                             return (
                                 <motion.div
                                     key={diceId}
@@ -33,6 +34,7 @@ function App() {
                                         min={min}
                                         max={max}
                                         value={value}
+                                        isLocked={isLocked}
                                     />
                                 </motion.div>
                             );
@@ -50,6 +52,7 @@ function App() {
                 </div>
                 <BottomBar />
             </div>
+            <Toaster />
         </ThemeProvider>
     );
 }
