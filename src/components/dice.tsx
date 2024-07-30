@@ -56,7 +56,7 @@ const Dice = ({ id, min, max, value, isLocked }: DiceProps) => {
             {...longPressProps}
         >
             <div>
-                <p className="text-xs">{`${min}-${max}`}</p>
+                <p className="text-xs text-muted-foreground">{`${min}-${max}`}</p>
                 <p className="text-xl font-bold">{value}</p>
             </div>
             <AnimatePresence>
