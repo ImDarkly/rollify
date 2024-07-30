@@ -2,7 +2,7 @@ import useDiceStore from "@/zustand/store";
 import { Button } from "./ui/button";
 import { Icon } from "@iconify/react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useHistoryState } from "@uidotdev/usehooks";
+import { useLongPress } from "@uidotdev/usehooks";
 import { useToast } from "./ui/use-toast";
 import { ToastAction } from "./ui/toast";
 
@@ -20,22 +20,31 @@ const Dice = ({ id, min, max, value, isLocked }: DiceProps) => {
     const { toast } = useToast();
     const { undo } = useDiceStore.temporal.getState();
 
+    const longPressProps = useLongPress(
+        () => {
+            removeDice(id);
+            toast({
+                title: "Dice Removed",
+                description: `Dice with value ${value} and range ${min}-${max} has been removed.`,
+                action: (
+                    <ToastAction
+                        altText="Undo"
+                        onClick={() => {
+                            undo();
+                        }}
+                    >
+                        Undo
+                    </ToastAction>
+                ),
+            });
+        },
+        {
+            threshold: 300,
+        }
+    );
+
     const handleClick = (id: number) => {
-        removeDice(id);
-        toast({
-            title: "Dice Removed",
-            description: `Dice with value ${value} and range ${min}-${max} has been removed.`,
-            action: (
-                <ToastAction
-                    altText="Undo"
-                    onClick={() => {
-                        undo();
-                    }}
-                >
-                    Undo
-                </ToastAction>
-            ),
-        });
+        toggleLock(id);
     };
 
     return (
@@ -44,6 +53,7 @@ const Dice = ({ id, min, max, value, isLocked }: DiceProps) => {
             size={"icon"}
             variant={"secondary"}
             className="size-16 relative overflow-clip"
+            {...longPressProps}
         >
             <div>
                 <p className="text-xs">{`${min}-${max}`}</p>
