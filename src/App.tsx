@@ -1,4 +1,3 @@
-import "./App.css";
 import BottomBar from "./components/bottom-bar";
 import { ThemeProvider } from "@/components/theme-provider";
 import TopBar from "./components/top-bar";
