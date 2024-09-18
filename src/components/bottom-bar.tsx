@@ -32,7 +32,7 @@ const BottomBar = () => {
             {!noDicesAvailable ? (
                 <motion.div
                     animate={{ scale: 1 }}
-                    whileTap={{ scale: 0.9 }}
+                    whileTap={{ scale: 0.95 }}
                     transition={{
                         repeat: Infinity,
                         repeatType: "loop",
