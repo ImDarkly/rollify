@@ -7,19 +7,31 @@ const DiceGrid = () => {
     const dice = useDiceStore((state) => state.dice);
 
     return (
-        <div className="flex-grow flex flex-wrap justify-center items-center content-center gap-2 overflow-hidden max-w-screen-lg p-4">
+        <div className="flex-grow flex flex-wrap content-center justify-center items-center content-centergap-2 gap-2 overflow-hidden max-w-screen-lg p-4">
             <AnimatePresence>
                 {Object.keys(dice).map((key) => {
                     const diceId = parseInt(key, 10);
                     const { min, max, value, isLocked } = dice[diceId];
                     return (
                         <motion.div
+                            className="overflow-hidden"
                             key={diceId}
                             layout
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
-                            transition={{ duration: 0.1 }}
+                            initial={{
+                                opacity: 0,
+                                scale: 0.8,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                scale: 1,
+                            }}
+                            exit={{
+                                opacity: 0,
+                                scale: 0.8,
+                            }}
+                            transition={{
+                                duration: 0.1,
+                            }}
                         >
                             <Dice
                                 id={diceId}

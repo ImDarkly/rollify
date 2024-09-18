@@ -62,10 +62,14 @@
 @layer base {
   * {
     @apply border-border;
+    user-select: none;
   }
   body {
     @apply bg-background text-foreground;
-    user-select: none;
+  }
+  ::selection {
+    color: hsl(var(--background));
+    background: hsl(var(--muted-foreground));
   }
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {

@@ -1,4 +1,4 @@
-# Roller
+# Rollify
 
 Simple dice roller.
 

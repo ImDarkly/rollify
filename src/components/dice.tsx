@@ -1,18 +1,19 @@
 import useDiceStore from "@/zustand/store";
 import { Button } from "./ui/button";
-import { Icon } from "@iconify/react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
 import { useToast } from "./ui/use-toast";
 import { ToastAction } from "./ui/toast";
+import MotionNumber from "motion-number";
+import { easeOut } from "framer-motion";
 
-type DiceProps = {
+interface DiceProps {
     id: number;
     min: number;
     max: number;
     value: number;
     isLocked: boolean;
-};
+}
 
 const Dice = ({ id, min, max, value, isLocked }: DiceProps) => {
     const toggleLock = useDiceStore((state) => state.toggleLock);
@@ -48,32 +49,45 @@ const Dice = ({ id, min, max, value, isLocked }: DiceProps) => {
     };
 
     return (
-        <Button
-            onClick={() => handleClick(id)}
-            size={"icon"}
-            variant={"secondary"}
-            className="size-16 relative overflow-clip"
-            {...longPressProps}
+        <motion.div
+            animate={{ opacity: isLocked ? 0.3 : 1 }}
+            transition={{ duration: 0.3 }}
         >
-            <div>
-                <p className="text-xs text-muted-foreground">{`${min}-${max}`}</p>
-                <p className="text-xl font-bold">{value}</p>
-            </div>
-            <AnimatePresence>
-                {isLocked && (
-                    <motion.div
-                        key="lock-icon"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ duration: 0.1 }}
-                        className="absolute bg-secondary h-full w-full flex justify-center items-center backdrop-blur-sm"
-                    >
-                        <Icon icon="heroicons:lock-closed-16-solid" />
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </Button>
+            <Button
+                onClick={() => handleClick(id)}
+                size={"icon"}
+                variant={"secondary"}
+                className="size-16 relative overflow-clip"
+                {...longPressProps}
+            >
+                <div className="flex justify-center items-center flex-col">
+                    <p className="text-xs text-muted-foreground">{`${min}-${max}`}</p>
+                    <p className="text-xl font-bold select-none">
+                        <MotionNumber
+                            value={value}
+                            format={{ notation: "compact" }}
+                            transition={{
+                                layout: {
+                                    type: "spring",
+                                    duration: 0.3,
+                                    bounce: 0,
+                                },
+                                y: {
+                                    type: "spring",
+                                    duration: 1.5,
+                                    bounce: 0.25,
+                                },
+                                opacity: {
+                                    duration: 1,
+                                    ease: easeOut,
+                                    times: [0, 0.3],
+                                },
+                            }}
+                        />
+                    </p>
+                </div>
+            </Button>
+        </motion.div>
     );
 };
 

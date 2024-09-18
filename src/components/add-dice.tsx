@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import { Icon } from "@iconify/react";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogHeader,
@@ -23,21 +24,22 @@ import { Input } from "./ui/input";
 import useDiceStore from "@/zustand/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { ScrollArea } from "./ui/scroll-area";
+import { RangeSlider } from "./ui/range-slider";
 
 interface AddDiceProps {
     open: boolean;
     onOpenChange: Dispatch<SetStateAction<boolean>>;
-    minValue: string;
-    maxValue: string;
+    minValue: number;
+    maxValue: number;
     isButtonDisabled: boolean;
-    setMinValue: Dispatch<SetStateAction<string>>;
-    setMaxValue: Dispatch<SetStateAction<string>>;
+    setMinValue: Dispatch<SetStateAction<number>>;
+    setMaxValue: Dispatch<SetStateAction<number>>;
     handleAdd: () => void;
 }
 
 const AddDice = () => {
-    const [minValue, setMinValue] = useState("");
-    const [maxValue, setMaxValue] = useState("");
+    const [minValue, setMinValue] = useState<number>(1);
+    const [maxValue, setMaxValue] = useState<number>(6);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [open, setOpen] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -45,21 +47,18 @@ const AddDice = () => {
     const setDiceRange = useDiceStore((state) => state.setDiceRange);
 
     useEffect(() => {
-        if (minValue !== "" && maxValue !== "") {
-            const min = parseInt(minValue, 10);
-            const max = parseInt(maxValue, 10);
-            setIsButtonDisabled(max <= min);
-        } else {
-            setIsButtonDisabled(true);
-        }
+        setIsButtonDisabled(maxValue <= minValue);
     }, [minValue, maxValue]);
 
     const handleAdd = () => {
-        const min = parseInt(minValue, 10);
-        const max = parseInt(maxValue, 10);
-        setDiceRange(min, max);
-        setMinValue("");
-        setMaxValue("");
+        setDiceRange(minValue, maxValue);
+        setMinValue(1);
+        setMaxValue(6);
+    };
+
+    const handleSliderChange = (values: [number, number]) => {
+        setMinValue(values[0]);
+        setMaxValue(values[1]);
     };
 
     return isDesktop ? (
@@ -72,6 +71,7 @@ const AddDice = () => {
             setMinValue={setMinValue}
             setMaxValue={setMaxValue}
             handleAdd={handleAdd}
+            onSliderChange={handleSliderChange}
         />
     ) : (
         <AddDiceDrawer
@@ -83,6 +83,7 @@ const AddDice = () => {
             setMinValue={setMinValue}
             setMaxValue={setMaxValue}
             handleAdd={handleAdd}
+            onSliderChange={handleSliderChange}
         />
     );
 };
@@ -96,7 +97,8 @@ const AddDiceDialog = ({
     setMinValue,
     setMaxValue,
     handleAdd,
-}: AddDiceProps) => (
+    onSliderChange,
+}: AddDiceProps & { onSliderChange: (values: [number, number]) => void }) => (
     <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
             <Button size={"icon"} variant={"outline"} className="size-16">
@@ -115,21 +117,31 @@ const AddDiceDialog = ({
                     type="number"
                     placeholder="Minimal value"
                     value={minValue}
-                    onChange={(e) => setMinValue(e.target.value)}
+                    onChange={(e) => setMinValue(Number(e.target.value))}
                     className="text-md"
+                    onFocus={(e) => e.target.select()}
+                />
+                <RangeSlider
+                    value={[minValue, maxValue]}
+                    max={20}
+                    step={1}
+                    onValueChange={onSliderChange}
                 />
                 <Input
                     type="number"
                     placeholder="Maximum value"
                     value={maxValue}
-                    onChange={(e) => setMaxValue(e.target.value)}
+                    onChange={(e) => setMaxValue(Number(e.target.value))}
                     className="text-md"
+                    onFocus={(e) => e.target.select()}
                 />
             </div>
             <div className="flex justify-end mt-4">
-                <Button onClick={handleAdd} disabled={isButtonDisabled}>
-                    Add
-                </Button>
+                <DialogClose asChild>
+                    <Button onClick={handleAdd} disabled={isButtonDisabled}>
+                        Add
+                    </Button>
+                </DialogClose>
             </div>
         </DialogContent>
     </Dialog>
@@ -144,7 +156,8 @@ const AddDiceDrawer = ({
     setMinValue,
     setMaxValue,
     handleAdd,
-}: AddDiceProps) => (
+    onSliderChange,
+}: AddDiceProps & { onSliderChange: (values: [number, number]) => void }) => (
     <Drawer open={open} onOpenChange={onOpenChange}>
         <DrawerTrigger asChild>
             <Button size={"icon"} variant={"outline"} className="size-16">
@@ -161,27 +174,43 @@ const AddDiceDrawer = ({
                         Please choose the range.
                     </DrawerDescription>
                 </DrawerHeader>
-                <div className="flex flex-row gap-2 px-4">
-                    <Input
-                        type="number"
-                        placeholder="Minimal value"
-                        value={minValue}
-                        onChange={(e) => setMinValue(e.target.value)}
-                        className="text-md"
-                    />
-                    <Input
-                        type="number"
-                        placeholder="Maximum value"
-                        value={maxValue}
-                        onChange={(e) => setMaxValue(e.target.value)}
-                        className="text-md"
+                <div className="flex flex-col px-4 gap-4 p-4">
+                    <div className="flex justify-between">
+                        <Input
+                            type="number"
+                            placeholder="Minimal value"
+                            value={minValue}
+                            onChange={(e) =>
+                                setMinValue(Number(e.target.value))
+                            }
+                            className="text-md"
+                            onFocus={(e) => e.target.select()}
+                        />
+                        <Input
+                            type="number"
+                            placeholder="Maximum value"
+                            value={maxValue}
+                            onChange={(e) =>
+                                setMaxValue(Number(e.target.value))
+                            }
+                            className="text-md"
+                            onFocus={(e) => e.target.select()}
+                        />
+                    </div>
+                    <RangeSlider
+                        value={[minValue, maxValue]}
+                        max={20}
+                        step={1}
+                        onValueChange={onSliderChange}
                     />
                 </div>
                 <DrawerFooter>
-                    <Button onClick={handleAdd} disabled={isButtonDisabled}>
-                        Add
-                    </Button>
-                    <DrawerClose>
+                    <DrawerClose asChild>
+                        <Button onClick={handleAdd} disabled={isButtonDisabled}>
+                            Add
+                        </Button>
+                    </DrawerClose>
+                    <DrawerClose asChild>
                         <Button variant="ghost">Cancel</Button>
                     </DrawerClose>
                 </DrawerFooter>
