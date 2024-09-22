@@ -20,9 +20,11 @@ interface AddDiceDrawerProps {
     onOpenChange: (open: boolean) => void;
     minValue: number;
     maxValue: number;
+    multiplier: number;
     isButtonDisabled: boolean;
     setMinValue: (value: number) => void;
     setMaxValue: (value: number) => void;
+    setMultiplier: (value: number) => void;
     handleAdd: () => void;
     onSliderChange: (values: [number, number]) => void;
 }
@@ -32,9 +34,11 @@ const AddDiceDrawer = ({
     onOpenChange,
     minValue,
     maxValue,
+    multiplier,
     isButtonDisabled,
     setMinValue,
     setMaxValue,
+    setMultiplier,
     handleAdd,
     onSliderChange,
 }: AddDiceDrawerProps) => (
@@ -54,35 +58,55 @@ const AddDiceDrawer = ({
                         Please choose the range.
                     </DrawerDescription>
                 </DrawerHeader>
-                <div className="flex flex-col px-4 gap-4 p-4">
-                    <div className="flex justify-between">
-                        <Input
-                            type="number"
-                            placeholder="Minimal value"
-                            value={minValue}
-                            onChange={(e) =>
-                                setMinValue(Number(e.target.value))
-                            }
-                            className="text-md"
-                            onFocus={(e) => e.target.select()}
+                <div className="flex px-4 p-4 gap-4">
+                    <div className="flex flex-col flex-grow gap-4">
+                        <div className="flex justify-between">
+                            <Input
+                                type="number"
+                                placeholder="Minimal value"
+                                value={minValue}
+                                onChange={(e) =>
+                                    setMinValue(Number(e.target.value))
+                                }
+                                className="text-md"
+                                onFocus={(e) => e.target.select()}
+                            />
+                            <Input
+                                type="number"
+                                placeholder="Maximum value"
+                                value={maxValue}
+                                onChange={(e) =>
+                                    setMaxValue(Number(e.target.value))
+                                }
+                                className="text-md"
+                                onFocus={(e) => e.target.select()}
+                            />
+                        </div>
+                        <RangeSlider
+                            value={[minValue, maxValue]}
+                            max={20}
+                            step={1}
+                            onValueChange={onSliderChange}
                         />
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <span>
+                            <Icon
+                                icon="heroicons:x-mark-16-solid"
+                                className="size-6"
+                            />
+                        </span>
                         <Input
                             type="number"
-                            placeholder="Maximum value"
-                            value={maxValue}
+                            placeholder="Multiplier"
+                            value={multiplier}
                             onChange={(e) =>
-                                setMaxValue(Number(e.target.value))
+                                setMultiplier(Number(e.target.value))
                             }
                             className="text-md"
                             onFocus={(e) => e.target.select()}
                         />
                     </div>
-                    <RangeSlider
-                        value={[minValue, maxValue]}
-                        max={20}
-                        step={1}
-                        onValueChange={onSliderChange}
-                    />
                 </div>
                 <DrawerFooter>
                     <DrawerClose asChild>

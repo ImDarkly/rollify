@@ -11,17 +11,19 @@ const AddDice = () => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [open, setOpen] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
+    const [multiplier, setMultiplier] = useState<number>(1);
 
-    const setDiceRange = useDiceStore((state) => state.setDiceRange);
+    const createDice = useDiceStore((state) => state.createDice);
 
     useEffect(() => {
         setIsButtonDisabled(maxValue <= minValue);
     }, [minValue, maxValue]);
 
     const handleAdd = () => {
-        setDiceRange(minValue, maxValue);
+        createDice(minValue, maxValue, multiplier);
         setMinValue(1);
         setMaxValue(6);
+        setMultiplier(1);
     };
 
     const handleSliderChange = (values: [number, number]) => {
@@ -35,9 +37,11 @@ const AddDice = () => {
             onOpenChange={setOpen}
             minValue={minValue}
             maxValue={maxValue}
+            multiplier={multiplier}
             isButtonDisabled={isButtonDisabled}
             setMinValue={setMinValue}
             setMaxValue={setMaxValue}
+            setMultiplier={setMultiplier}
             handleAdd={handleAdd}
             onSliderChange={handleSliderChange}
         />
@@ -47,9 +51,11 @@ const AddDice = () => {
             onOpenChange={setOpen}
             minValue={minValue}
             maxValue={maxValue}
+            multiplier={multiplier}
             isButtonDisabled={isButtonDisabled}
             setMinValue={setMinValue}
             setMaxValue={setMaxValue}
+            setMultiplier={setMultiplier}
             handleAdd={handleAdd}
             onSliderChange={handleSliderChange}
         />

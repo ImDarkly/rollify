@@ -17,9 +17,11 @@ interface AddDiceDialogProps {
     onOpenChange: (open: boolean) => void;
     minValue: number;
     maxValue: number;
+    multiplier: number;
     isButtonDisabled: boolean;
     setMinValue: (value: number) => void;
     setMaxValue: (value: number) => void;
+    setMultiplier: (value: number) => void;
     handleAdd: () => void;
     onSliderChange: (values: [number, number]) => void;
 }
@@ -29,9 +31,11 @@ const AddDiceDialog = ({
     onOpenChange,
     minValue,
     maxValue,
+    multiplier,
     isButtonDisabled,
     setMinValue,
     setMaxValue,
+    setMultiplier,
     handleAdd,
     onSliderChange,
 }: AddDiceDialogProps) => (
@@ -48,7 +52,7 @@ const AddDiceDialog = ({
                     Please choose the range.
                 </DialogDescription>
             </DialogHeader>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 items-center">
                 <Input
                     type="number"
                     placeholder="Minimal value"
@@ -68,6 +72,17 @@ const AddDiceDialog = ({
                     placeholder="Maximum value"
                     value={maxValue}
                     onChange={(e) => setMaxValue(Number(e.target.value))}
+                    className="text-md"
+                    onFocus={(e) => e.target.select()}
+                />
+                <span>
+                    <Icon icon="heroicons:x-mark-16-solid" className="size-6" />
+                </span>
+                <Input
+                    type="number"
+                    placeholder="Multiplier"
+                    value={multiplier}
+                    onChange={(e) => setMultiplier(Number(e.target.value))}
                     className="text-md"
                     onFocus={(e) => e.target.select()}
                 />

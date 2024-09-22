@@ -1,39 +1,48 @@
 import { create } from "zustand";
 import { temporal } from 'zundo';
 
+type Dice = {
+    min: number;
+    max: number;
+    value: number;
+    isLocked: boolean;
+    multiplier?: number;
+};
+
 type DiceState = {
-    dice: Record<number, { min: number; max: number; value: number; isLocked: boolean }>;
-    nextId: number; // Track the next unique ID
-    setDiceRange: (min: number, max: number) => void; // Add dice with a unique ID
-    generateRandomValue: (id: number) => void; // Generate random value for a dice
-    removeDice: (id: number) => void; // Remove dice based on id
-    toggleLock: (id: number) => void; // Toggle the lock state of a dice
+    dice: Record<number, Dice>;
+    nextId: number;
+    createDice: (min: number, max: number, multiplier?: number) => void;
+    generateRandomValue: (id: number) => void;
+    removeDice: (id: number) => void; 
+    toggleLock: (id: number) => void;
 };
 
 const useDiceStore = create<DiceState>()(
     temporal((set) => ({
         dice: {},
-        nextId: 1, // Initialize with 1 or another starting value
-        setDiceRange: (min, max) => set((state) => {
+        nextId: 1,
+        createDice: (min: number, max: number, multiplier: number = 1) => set((state) => {
             const newId = state.nextId;
             return {
                 dice: {
                     ...state.dice,
-                    [newId]: { min, max, value: 0, isLocked: false },
+                    [newId]: { min, max, value: 0, isLocked: false, multiplier: multiplier > 0 ? multiplier : 1 },
                 },
-                nextId: newId + 1, // Increment ID for the next dice
+                nextId: newId + 1,
             };
         }),
         generateRandomValue: (id) => set((state) => {
             const dice = state.dice[id];
-            if (!dice || dice.isLocked) return state; // Do nothing if dice is locked
-    
-            const { min, max } = dice;
+            if (!dice || dice.isLocked) return state;
+
+            const { min, max, multiplier } = dice;
             const value = Math.floor(Math.random() * (max - min + 1)) + min;
+            const multipliedValue = multiplier ? value * multiplier : value;
             return {
                 dice: {
                     ...state.dice,
-                    [id]: { ...dice, value },
+                    [id]: { ...dice, value: multipliedValue },
                 },
             };
         }),
@@ -45,7 +54,6 @@ const useDiceStore = create<DiceState>()(
         toggleLock: (id) => set((state) => {
             const dice = state.dice[id];
             if (!dice) return state;
-        
             return {
                 dice: {
                     ...state.dice,
@@ -54,6 +62,6 @@ const useDiceStore = create<DiceState>()(
             };
         }),
     }))
-)
+);
 
 export default useDiceStore;
