@@ -1,4 +1,3 @@
-import useDiceStore from "@/zustand/store";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { useLongPress } from "@uidotdev/usehooks";
@@ -6,6 +5,7 @@ import { useToast } from "./ui/use-toast";
 import { ToastAction } from "./ui/toast";
 import MotionNumber from "motion-number";
 import { easeOut } from "framer-motion";
+import useDiceStore from "@/zustand/diceStore";
 
 interface DiceProps {
     id: number;
@@ -13,9 +13,10 @@ interface DiceProps {
     max: number;
     value: number;
     isLocked: boolean;
+    title: string;
 }
 
-const Dice = ({ id, min, max, value, isLocked }: DiceProps) => {
+const Dice = ({ id, min, max, value, isLocked, title }: DiceProps) => {
     const toggleLock = useDiceStore((state) => state.toggleLock);
     const removeDice = useDiceStore((state) => state.removeDice);
     const { toast } = useToast();
@@ -61,7 +62,9 @@ const Dice = ({ id, min, max, value, isLocked }: DiceProps) => {
                 {...longPressProps}
             >
                 <div className="flex justify-center items-center flex-col">
-                    <p className="text-xs text-muted-foreground">{`${min}-${max}`}</p>
+                    <p className="text-xs text-muted-foreground whitespace-normal overflow-hidden text-center">
+                        {title}
+                    </p>
                     <p className="text-xl font-bold select-none">
                         <MotionNumber
                             value={value}

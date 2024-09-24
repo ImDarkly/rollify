@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
-import useDiceStore from "@/zustand/store";
+import useDiceStore from "@/zustand/diceStore";
 
 const BottomBar = () => {
     const generateRandomValue = useDiceStore(
@@ -28,7 +28,7 @@ const BottomBar = () => {
         Object.values(dice).every((die) => die.isLocked);
 
     return (
-        <div className="w-full h-24 bg-gradient-to-t from-background to-transparent absolute left-0 bottom-0 flex flex-row justify-center items-center">
+        <div className="w-full h-36 bg-gradient-to-t from-background to-transparent absolute left-0 bottom-0 flex flex-row justify-center items-center">
             {!noDicesAvailable ? (
                 <motion.div
                     animate={{ scale: 1 }}

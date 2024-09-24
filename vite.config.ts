@@ -12,6 +12,7 @@ export default defineConfig({
   },
   base: "/rollify/",
   server: {
-    host: true
+    host: true,
+    open: true,
   },
 })

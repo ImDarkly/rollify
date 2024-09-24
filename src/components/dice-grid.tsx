@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import AddDice from "./add-dice";
 import Dice from "./dice";
-import useDiceStore from "@/zustand/store";
+import useDiceStore from "@/zustand/diceStore";
 
 const DiceGrid = () => {
     const dice = useDiceStore((state) => state.dice);
@@ -11,7 +11,7 @@ const DiceGrid = () => {
             <AnimatePresence>
                 {Object.keys(dice).map((key) => {
                     const diceId = parseInt(key, 10);
-                    const { min, max, value, isLocked } = dice[diceId];
+                    const { min, max, value, isLocked, title } = dice[diceId];
                     return (
                         <motion.div
                             className="overflow-hidden"
@@ -39,6 +39,7 @@ const DiceGrid = () => {
                                 max={max}
                                 value={value}
                                 isLocked={isLocked}
+                                title={title}
                             />
                         </motion.div>
                     );

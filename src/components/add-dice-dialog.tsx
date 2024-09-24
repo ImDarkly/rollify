@@ -8,94 +8,58 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { RangeSlider } from "./ui/range-slider";
 import { Icon } from "@iconify/react";
+import AddDiceForm from "./add-dice-form";
+import { useEffect, useState } from "react";
+import useDiceStore from "@/zustand/diceStore";
 
-interface AddDiceDialogProps {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    minValue: number;
-    maxValue: number;
-    multiplier: number;
-    isButtonDisabled: boolean;
-    setMinValue: (value: number) => void;
-    setMaxValue: (value: number) => void;
-    setMultiplier: (value: number) => void;
-    handleAdd: () => void;
-    onSliderChange: (values: [number, number]) => void;
-}
+const AddDiceDialog = () => {
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [open, setOpen] = useState(false);
 
-const AddDiceDialog = ({
-    open,
-    onOpenChange,
-    minValue,
-    maxValue,
-    multiplier,
-    isButtonDisabled,
-    setMinValue,
-    setMaxValue,
-    setMultiplier,
-    handleAdd,
-    onSliderChange,
-}: AddDiceDialogProps) => (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogTrigger asChild>
-            <Button size={"icon"} variant={"outline"} className="size-16">
-                <Icon icon="heroicons:plus-16-solid" />
-            </Button>
-        </DialogTrigger>
-        <DialogContent>
-            <DialogHeader>
-                <DialogTitle className="text-left">Add new dice</DialogTitle>
-                <DialogDescription className="text-left">
-                    Please choose the range.
-                </DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-row gap-2 items-center">
-                <Input
-                    type="number"
-                    placeholder="Minimal value"
-                    value={minValue}
-                    onChange={(e) => setMinValue(Number(e.target.value))}
-                    className="text-md"
-                    onFocus={(e) => e.target.select()}
-                />
-                <RangeSlider
-                    value={[minValue, maxValue]}
-                    max={20}
-                    step={1}
-                    onValueChange={onSliderChange}
-                />
-                <Input
-                    type="number"
-                    placeholder="Maximum value"
-                    value={maxValue}
-                    onChange={(e) => setMaxValue(Number(e.target.value))}
-                    className="text-md"
-                    onFocus={(e) => e.target.select()}
-                />
-                <span>
-                    <Icon icon="heroicons:x-mark-16-solid" className="size-6" />
-                </span>
-                <Input
-                    type="number"
-                    placeholder="Multiplier"
-                    value={multiplier}
-                    onChange={(e) => setMultiplier(Number(e.target.value))}
-                    className="text-md"
-                    onFocus={(e) => e.target.select()}
-                />
-            </div>
-            <div className="flex justify-end mt-4">
-                <DialogClose asChild>
-                    <Button onClick={handleAdd} disabled={isButtonDisabled}>
-                        Add
-                    </Button>
-                </DialogClose>
-            </div>
-        </DialogContent>
-    </Dialog>
-);
+    const { diceSettings, updateDiceSettings, createDice } = useDiceStore();
+    const { values } = diceSettings;
+
+    const handleAddDice = () => {
+        createDice();
+        updateDiceSettings({ values: { minimum: 1, maximum: 6 } });
+        updateDiceSettings({ multiplier: 1 });
+    };
+
+    useEffect(() => {
+        setIsButtonDisabled(values.maximum <= values.minimum);
+    }, [values.minimum, values.maximum]);
+
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+                <Button size={"icon"} variant={"outline"} className="size-16">
+                    <Icon icon="heroicons:plus-16-solid" />
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle className="text-left">
+                        Add new dice
+                    </DialogTitle>
+                    <DialogDescription className="text-left">
+                        Please choose the range.
+                    </DialogDescription>
+                </DialogHeader>
+                <AddDiceForm />
+                <div className="flex justify-end mt-4">
+                    <DialogClose asChild>
+                        <Button
+                            onClick={handleAddDice}
+                            disabled={isButtonDisabled}
+                        >
+                            Add
+                        </Button>
+                    </DialogClose>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+};
 
 export default AddDiceDialog;

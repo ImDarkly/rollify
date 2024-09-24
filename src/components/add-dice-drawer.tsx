@@ -10,117 +10,69 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { RangeSlider } from "./ui/range-slider";
 import { ScrollArea } from "./ui/scroll-area";
 import { Icon } from "@iconify/react";
+import { useEffect, useState } from "react";
+import useDiceStore from "@/zustand/diceStore";
+import AddDiceForm from "./add-dice-form";
 
-interface AddDiceDrawerProps {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    minValue: number;
-    maxValue: number;
-    multiplier: number;
-    isButtonDisabled: boolean;
-    setMinValue: (value: number) => void;
-    setMaxValue: (value: number) => void;
-    setMultiplier: (value: number) => void;
-    handleAdd: () => void;
-    onSliderChange: (values: [number, number]) => void;
-}
+const AddDiceDrawer = () => {
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [open, setOpen] = useState(false);
+    const { diceSettings, updateDiceSettings, createDice } = useDiceStore();
 
-const AddDiceDrawer = ({
-    open,
-    onOpenChange,
-    minValue,
-    maxValue,
-    multiplier,
-    isButtonDisabled,
-    setMinValue,
-    setMaxValue,
-    setMultiplier,
-    handleAdd,
-    onSliderChange,
-}: AddDiceDrawerProps) => (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerTrigger asChild>
-            <Button size={"icon"} variant={"outline"} className="size-16">
-                <Icon icon="heroicons:plus-16-solid" />
-            </Button>
-        </DrawerTrigger>
-        <DrawerContent onOpenAutoFocus={(event) => event.preventDefault()}>
-            <ScrollArea className="overflow-y-scroll">
-                <DrawerHeader>
-                    <DrawerTitle className="text-left">
-                        Add new dice
-                    </DrawerTitle>
-                    <DrawerDescription className="text-left">
-                        Please choose the range.
-                    </DrawerDescription>
-                </DrawerHeader>
-                <div className="flex px-4 p-4 gap-4">
-                    <div className="flex flex-col flex-grow gap-4">
-                        <div className="flex justify-between">
-                            <Input
-                                type="number"
-                                placeholder="Minimal value"
-                                value={minValue}
-                                onChange={(e) =>
-                                    setMinValue(Number(e.target.value))
-                                }
-                                className="text-md"
-                                onFocus={(e) => e.target.select()}
-                            />
-                            <Input
-                                type="number"
-                                placeholder="Maximum value"
-                                value={maxValue}
-                                onChange={(e) =>
-                                    setMaxValue(Number(e.target.value))
-                                }
-                                className="text-md"
-                                onFocus={(e) => e.target.select()}
-                            />
-                        </div>
-                        <RangeSlider
-                            value={[minValue, maxValue]}
-                            max={20}
-                            step={1}
-                            onValueChange={onSliderChange}
-                        />
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <span>
-                            <Icon
-                                icon="heroicons:x-mark-16-solid"
-                                className="size-6"
-                            />
-                        </span>
-                        <Input
-                            type="number"
-                            placeholder="Multiplier"
-                            value={multiplier}
-                            onChange={(e) =>
-                                setMultiplier(Number(e.target.value))
-                            }
-                            className="text-md"
-                            onFocus={(e) => e.target.select()}
-                        />
-                    </div>
-                </div>
-                <DrawerFooter>
-                    <DrawerClose asChild>
-                        <Button onClick={handleAdd} disabled={isButtonDisabled}>
-                            Add
-                        </Button>
-                    </DrawerClose>
-                    <DrawerClose asChild>
-                        <Button variant="ghost">Cancel</Button>
-                    </DrawerClose>
-                </DrawerFooter>
-            </ScrollArea>
-        </DrawerContent>
-    </Drawer>
-);
+    const handleAddDice = () => {
+        createDice();
+        updateDiceSettings({
+            values: {
+                minimum: 1,
+                maximum: 6,
+            },
+            multiplier: 1,
+        });
+    };
+
+    useEffect(() => {
+        setIsButtonDisabled(
+            diceSettings.values.maximum <= diceSettings.values.minimum
+        );
+    }, [diceSettings.values.minimum, diceSettings.values.maximum]);
+
+    return (
+        <Drawer open={open} onOpenChange={setOpen}>
+            <DrawerTrigger asChild>
+                <Button size={"icon"} variant={"outline"} className="size-16">
+                    <Icon icon="heroicons:plus-16-solid" />
+                </Button>
+            </DrawerTrigger>
+            <DrawerContent onOpenAutoFocus={(event) => event.preventDefault()}>
+                <ScrollArea className="overflow-y-scroll">
+                    <DrawerHeader>
+                        <DrawerTitle className="text-left">
+                            Add new dice
+                        </DrawerTitle>
+                        <DrawerDescription className="text-left">
+                            Please choose the range.
+                        </DrawerDescription>
+                    </DrawerHeader>
+                    <AddDiceForm />
+                    <DrawerFooter>
+                        <DrawerClose asChild>
+                            <Button
+                                onClick={handleAddDice}
+                                disabled={isButtonDisabled}
+                            >
+                                Add
+                            </Button>
+                        </DrawerClose>
+                        <DrawerClose asChild>
+                            <Button variant="ghost">Cancel</Button>
+                        </DrawerClose>
+                    </DrawerFooter>
+                </ScrollArea>
+            </DrawerContent>
+        </Drawer>
+    );
+};
 
 export default AddDiceDrawer;
