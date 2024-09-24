@@ -74,7 +74,7 @@ const AddDiceForm = () => {
         <div className="flex px-4 sm:px-0 p-4 gap-4">
             <div className="flex flex-col flex-grow gap-8">
                 <div className="flex gap-2 flex-col">
-                    <Label>Dice title</Label>
+                    <Label>Title</Label>
                     <Input
                         type="text"
                         className="w-full text-left"
@@ -85,7 +85,7 @@ const AddDiceForm = () => {
                 </div>
                 <div>
                     <div className="flex gap-2 flex-col">
-                        <Label>Dice range</Label>
+                        <Label>Range</Label>
                         <div className="flex gap-2">
                             <div className="flex gap-2 flex-grow flex-col">
                                 <div className="flex justify-between sm:gap-2 sm:items-center">

@@ -1,7 +1,7 @@
 {
     "name": "rollify",
     "private": false,
-    "version": "1.2.0",
+    "version": "1.2.1",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -20,6 +20,7 @@
         "@radix-ui/react-slot": "^1.1.0",
         "@radix-ui/react-switch": "^1.1.0",
         "@radix-ui/react-toast": "^1.2.1",
+        "@radix-ui/react-tooltip": "^1.1.2",
         "@uidotdev/usehooks": "^2.4.1",
         "autoprefixer": "^10.4.20",
         "class-variance-authority": "^0.7.0",

@@ -11,6 +11,9 @@ This project was created in order to help people to roll dices with different ra
 -   roll dices
 -   set range
 -   remove dices
+-   lock dices
+-   edit dices
+-   save dices to localstorage
 
 ## Running Locally
 
