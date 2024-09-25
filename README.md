@@ -14,6 +14,7 @@ This project was created in order to help people to roll dices with different ra
 -   lock dices
 -   edit dices
 -   save dices to localstorage
+-   rearrange dices
 
 ## Running Locally
 
