@@ -11,12 +11,15 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
-import { Icon } from "@iconify/react";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import useDiceStore from "@/zustand/diceStore";
 import AddDiceForm from "./add-dice-form";
 
-const AddDiceDrawer = () => {
+interface AddDiceDrawerProps {
+    children: ReactNode;
+}
+
+const AddDiceDrawer: React.FC<AddDiceDrawerProps> = ({ children }) => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [open, setOpen] = useState(false);
     const { diceSettings, updateDiceSettings, createDice } = useDiceStore();
@@ -40,11 +43,7 @@ const AddDiceDrawer = () => {
 
     return (
         <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
-                <Button size={"icon"} variant={"outline"} className="size-16">
-                    <Icon icon="heroicons:plus-16-solid" />
-                </Button>
-            </DrawerTrigger>
+            <DrawerTrigger asChild>{children}</DrawerTrigger>
             <DrawerContent onOpenAutoFocus={(event) => event.preventDefault()}>
                 <ScrollArea className="overflow-y-scroll">
                     <DrawerHeader>

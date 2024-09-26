@@ -1,3 +1,4 @@
+//dice.tsx
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { useToast } from "./ui/use-toast";
@@ -13,27 +14,40 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import AddDice from "./add-dice";
 
 interface DiceProps {
     id: number;
     min: number;
     max: number;
     value: number;
+    multiplier: number;
     isLocked: boolean;
     title: string;
 }
 
-const Dice = ({ id, min, max, value, isLocked, title }: DiceProps) => {
+const Dice = ({
+    id,
+    min,
+    max,
+    value,
+    multiplier,
+    isLocked,
+    title,
+}: DiceProps) => {
     const toggleLock = useDiceStore((state) => state.toggleLock);
     const removeDice = useDiceStore((state) => state.removeDice);
     const { toast } = useToast();
     const { undo } = useDiceStore.temporal.getState();
 
-    const handleRomove = (id: number) => {
+    const handleRemove = (id: number) => {
         removeDice(id);
         toast({
             title: "Dice Removed",
-            description: `Dice with value ${value} and range ${min}-${max} has been removed.`,
+            description: `Dice with value ${value} and range ${min}-${max} ${
+                multiplier > 1 ? `×${multiplier}` : ""
+            } has been removed.`,
             action: (
                 <ToastAction
                     altText="Undo"
@@ -46,6 +60,7 @@ const Dice = ({ id, min, max, value, isLocked, title }: DiceProps) => {
             ),
         });
     };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -90,13 +105,44 @@ const Dice = ({ id, min, max, value, isLocked, title }: DiceProps) => {
                 </motion.div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuLabel>Manage</DropdownMenuLabel>
+                <DropdownMenuLabel>Manage {id}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onSelect={() => toggleLock(id)}>
-                    {isLocked ? "Unlock" : "Lock"}
+                <DropdownMenuItem
+                    onSelect={(e) => {
+                        e.preventDefault();
+                    }}
+                    className="p-0"
+                >
+                    <AddDice diceId={id}>
+                        <div className="flex items-center gap-2 p-2 flex-grow">
+                            <Icon icon="heroicons:pencil-square-16-solid" />
+                            Edit
+                        </div>
+                    </AddDice>
                 </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => handleRomove(id)}>
-                    Remove
+                <DropdownMenuItem
+                    onSelect={() => toggleLock(id)}
+                    className="gap-2"
+                >
+                    {isLocked ? (
+                        <>
+                            <Icon icon="heroicons:lock-open-16-solid" />
+                            <p>Unlock</p>
+                        </>
+                    ) : (
+                        <>
+                            <Icon icon="heroicons:lock-closed-20-solid" />
+                            <p>Lock</p>
+                        </>
+                    )}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                    className="text-red-600 focus:bg-red-600/25 focus:text-red-600 gap-2"
+                    onSelect={() => handleRemove(id)}
+                >
+                    <Icon icon="heroicons:trash-20-solid" />
+                    <p>Remove</p>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

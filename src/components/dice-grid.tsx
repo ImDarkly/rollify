@@ -2,6 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import AddDice from "./add-dice";
 import Dice from "./dice";
 import useDiceStore from "@/zustand/diceStore";
+import { Button } from "./ui/button";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 const DiceGrid = () => {
     const dice = useDiceStore((state) => state.dice);
@@ -11,7 +13,8 @@ const DiceGrid = () => {
             <AnimatePresence>
                 {Object.keys(dice).map((key) => {
                     const diceId = parseInt(key, 10);
-                    const { min, max, value, isLocked, title } = dice[diceId];
+                    const { min, max, value, multiplier, isLocked, title } =
+                        dice[diceId];
                     return (
                         <motion.div
                             className="overflow-hidden"
@@ -38,6 +41,7 @@ const DiceGrid = () => {
                                 min={min}
                                 max={max}
                                 value={value}
+                                multiplier={multiplier}
                                 isLocked={isLocked}
                                 title={title}
                             />
@@ -51,7 +55,15 @@ const DiceGrid = () => {
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.1 }}
                 >
-                    <AddDice />
+                    <AddDice>
+                        <Button
+                            size={"icon"}
+                            variant={"outline"}
+                            className="size-16"
+                        >
+                            <Icon icon="heroicons:plus-16-solid" />
+                        </Button>
+                    </AddDice>
                 </motion.div>
             </AnimatePresence>
         </div>

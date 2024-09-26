@@ -31,6 +31,7 @@ type DiceActions = {
     removeDice: (id: number) => void;
     toggleLock: (id: number) => void;
     updateDiceSettings: (updates: Partial<DiceSettings>) => void;
+    updateDice: (id: number, updates: Partial<Dice>) => void;
 };
 
 const loadStateFromLocalStorage = (): DiceState => {
@@ -124,6 +125,16 @@ const useDiceStore = create<DiceState & DiceActions>()(
                     }
                 };
                 saveStateToLocalStorage({ ...state, ...newState });
+                return newState;
+            }),
+
+            updateDice: (id, updates) => set((state) => {
+                const dice = state.dice[id];
+                if (!dice) return state;
+                const updatedDice = { ...dice, ...updates };
+                const newDice = { ...state.dice, [id]: updatedDice };
+                const newState = { ...state, dice: newDice };
+                saveStateToLocalStorage(newState);
                 return newState;
             }),
         };
