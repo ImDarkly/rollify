@@ -1,9 +1,9 @@
 // add-dice.tsx
 import useMediaQuery from "@/hooks/useMediaQuery";
-import AddDiceDrawer from "./add-dice-drawer";
 import { ReactNode } from "react";
 import DiceDialog from "./dice-dialog";
 import React from "react";
+import DiceDrawer from "./dice-drawer";
 
 interface AddDiceProps {
     children: ReactNode;
@@ -15,7 +15,7 @@ const AddDice: React.FC<AddDiceProps> = ({ children }) => {
     return isDesktop ? (
         <DiceDialog>{children}</DiceDialog>
     ) : (
-        <AddDiceDrawer>{children}</AddDiceDrawer>
+        <DiceDrawer>{children}</DiceDrawer>
     );
 };
 

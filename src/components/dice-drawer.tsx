@@ -56,7 +56,7 @@ const DiceDrawer: React.FC<DiceDrawerProps> = ({ diceId, children }) => {
                 multiplier: 1,
             });
         }
-    }, [open]);
+    }, [open, diceId]);
 
     return (
         <Drawer open={open} onOpenChange={setOpen}>

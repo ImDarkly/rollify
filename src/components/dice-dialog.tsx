@@ -54,7 +54,7 @@ const DiceDialog: React.FC<AddDiceDialogProps> = ({ diceId, children }) => {
                 multiplier: 1,
             });
         }
-    }, [open]);
+    }, [open, diceId]);
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
