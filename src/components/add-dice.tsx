@@ -7,14 +7,13 @@ import React from "react";
 
 interface AddDiceProps {
     children: ReactNode;
-    diceId?: number;
 }
 
-const AddDice: React.FC<AddDiceProps> = ({ diceId, children }) => {
+const AddDice: React.FC<AddDiceProps> = ({ children }) => {
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     return isDesktop ? (
-        <DiceDialog diceId={diceId}>{children}</DiceDialog>
+        <DiceDialog>{children}</DiceDialog>
     ) : (
         <AddDiceDrawer>{children}</AddDiceDrawer>
     );

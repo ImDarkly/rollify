@@ -15,7 +15,7 @@ import {
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import AddDice from "./add-dice";
+import UpdateDice from "./update-dice";
 
 interface DiceProps {
     id: number;
@@ -105,7 +105,7 @@ const Dice = ({
                 </motion.div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-                <DropdownMenuLabel>Manage {id}</DropdownMenuLabel>
+                <DropdownMenuLabel>Manage</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                     onSelect={(e) => {
@@ -113,12 +113,12 @@ const Dice = ({
                     }}
                     className="p-0"
                 >
-                    <AddDice diceId={id}>
+                    <UpdateDice diceId={id}>
                         <div className="flex items-center gap-2 p-2 flex-grow">
                             <Icon icon="heroicons:pencil-square-16-solid" />
                             Edit
                         </div>
-                    </AddDice>
+                    </UpdateDice>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     onSelect={() => toggleLock(id)}
