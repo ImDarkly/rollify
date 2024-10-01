@@ -71,10 +71,10 @@ const Dice = ({
                     <Button
                         size={"icon"}
                         variant={"secondary"}
-                        className="size-16 relative overflow-clip"
+                        className="size-16 relative bg-secondary/80 hover:bg-secondary"
                     >
                         <div className="flex justify-center items-center flex-col">
-                            <p className="text-xs text-muted-foreground whitespace-normal overflow-hidden text-center">
+                            <p className="text-xs text-secondary-foreground/60 whitespace-normal text-center">
                                 {title}
                             </p>
                             <p className="text-xl font-bold select-none">
