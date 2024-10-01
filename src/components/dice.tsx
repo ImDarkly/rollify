@@ -1,4 +1,3 @@
-//dice.tsx
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 import { useToast } from "./ui/use-toast";
@@ -16,6 +15,9 @@ import {
 } from "./ui/dropdown-menu";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import UpdateDice from "./update-dice";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { useEffect, useRef, useState } from "react";
 
 interface DiceProps {
     id: number;
@@ -38,8 +40,25 @@ const Dice = ({
 }: DiceProps) => {
     const toggleLock = useDiceStore((state) => state.toggleLock);
     const removeDice = useDiceStore((state) => state.removeDice);
+    const [isOpen, setIsOpen] = useState(false);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const { toast } = useToast();
     const { undo } = useDiceStore.temporal.getState();
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({ id: id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+        zIndex: isDragging ? 1000 : "auto",
+        position: "relative" as const,
+    };
 
     const handleRemove = (id: number) => {
         removeDice(id);
@@ -61,19 +80,51 @@ const Dice = ({
         });
     };
 
+    const handleOpenChange = (open: boolean) => {
+        if (!isDragging) {
+            if (open) {
+                if (timeoutRef.current) clearTimeout(timeoutRef.current);
+                timeoutRef.current = setTimeout(() => setIsOpen(open), 200);
+            } else {
+                setIsOpen(false);
+                if (timeoutRef.current) clearTimeout(timeoutRef.current);
+            }
+        } else {
+            setIsOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        if (isDragging) {
+            setIsOpen(false);
+            if (timeoutRef.current) clearTimeout(timeoutRef.current);
+        }
+    }, [isDragging]);
+
     return (
-        <DropdownMenu>
+        <DropdownMenu open={isOpen} onOpenChange={handleOpenChange}>
             <DropdownMenuTrigger asChild>
                 <motion.div
                     animate={{ opacity: isLocked ? 0.3 : 1 }}
                     transition={{ duration: 0.3 }}
+                    ref={setNodeRef}
+                    style={style}
+                    {...attributes}
+                    {...listeners}
+                    tabIndex={undefined}
                 >
                     <Button
                         size={"icon"}
                         variant={"secondary"}
-                        className="size-16 relative bg-secondary/80 hover:bg-secondary"
+                        className={`size-16 relative bg-secondary/80 hover:bg-secondary ${
+                            isOpen ? "bg-secondary" : ""
+                        } ${
+                            isDragging
+                                ? "bg-secondary z-50 ring-accent ring-2"
+                                : ""
+                        }`}
                     >
-                        <div className="flex justify-center items-center flex-col">
+                        <div className="flex justify-center items-center flex-col z-50">
                             <p className="text-xs text-secondary-foreground/60 whitespace-normal text-center">
                                 {title}
                             </p>
@@ -84,7 +135,7 @@ const Dice = ({
                                     transition={{
                                         layout: {
                                             type: "spring",
-                                            duration: 0.3,
+                                            duration: isDragging ? 0 : 0.3,
                                             bounce: 0,
                                         },
                                         y: {
