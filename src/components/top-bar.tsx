@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { ModeToggle } from "./mode-toggle";
 import { Button } from "./ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import HaloweenModeSwitcher from "./halloween-mode-switcher";
 
 const isProduction = import.meta.env.MODE === "production";
 const version = __APP_VERSION__;
@@ -34,7 +34,7 @@ const TopBar = () => {
                     <p>{`${version}${isProduction ? "" : "dev"}`}</p>
                 </TooltipContent>
             </Tooltip>
-            <ModeToggle />
+            <HaloweenModeSwitcher />
         </div>
     );
 };
