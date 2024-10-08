@@ -74,7 +74,7 @@ const Dice = ({
                         className="size-16 relative bg-secondary/80 hover:bg-secondary"
                     >
                         <div className="flex justify-center items-center flex-col">
-                            <p className="text-xs text-secondary-foreground/60 whitespace-normal text-center">
+                            <p className="text-xs text-secondary-foreground whitespace-normal text-center">
                                 {title}
                             </p>
                             <p className="text-xl font-bold select-none">
