@@ -1,5 +1,5 @@
 import BottomBar from "./components/bottom-bar";
-import { ThemeProvider, useTheme } from "@/components/theme-provider"; // Import your own useTheme hook
+import { ThemeProvider, useTheme } from "@/components/theme-provider";
 import TopBar from "./components/top-bar";
 import { Toaster } from "./components/ui/toaster";
 import DiceGrid from "./components/dice-grid";
