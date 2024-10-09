@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import confetti from 'canvas-confetti';
 
-const HalloweenMode = () => {
+const FallingLeaves = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,8 +25,8 @@ const HalloweenMode = () => {
 
     function frame() {
       if (Math.random() < 0.01) {
-        const baseSize = 0.8; // Increased base size
-        const sizeVariation = 0.4; // Added size variation
+        const baseSize = 0.8;
+        const sizeVariation = 0.4;
         const particleSize = baseSize + Math.random() * sizeVariation;
 
         myConfetti({
@@ -40,7 +40,7 @@ const HalloweenMode = () => {
           colors: [colors[Math.floor(Math.random() * colors.length)]],
           shapes: ['circle'],
           gravity: 0.15,
-          scalar: particleSize, // Use the randomized size
+          scalar: particleSize,
           drift: 0.2,
           zIndex: 50,
         });
@@ -62,9 +62,8 @@ const HalloweenMode = () => {
     <div 
       ref={containerRef} 
       className="absolute inset-0 flex z-50 h-screen w-screen pointer-events-none"
-    >
-    </div>
+    />
   );
 };
 
-export default HalloweenMode;
+export default FallingLeaves;

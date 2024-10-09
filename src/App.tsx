@@ -4,7 +4,7 @@ import TopBar from "./components/top-bar";
 import { Toaster } from "./components/ui/toaster";
 import DiceGrid from "./components/dice-grid";
 import { TooltipProvider } from "./components/ui/tooltip";
-import HalloweenMode from "./components/halloween-mode";
+import FallingLeaves from "./components/falling-leaves";
 
 function App() {
     return (
@@ -27,7 +27,7 @@ function MainContent() {
             </div>
             <BottomBar />
             <Toaster />
-            {theme === "pumpkin" ? <HalloweenMode /> : null}
+            {theme === "pumpkin" ? <FallingLeaves /> : null}
         </div>
     );
 }
