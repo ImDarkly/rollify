@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import confetti from 'canvas-confetti';
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 const FallingLeaves = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -30,7 +32,7 @@ const FallingLeaves = () => {
         const particleSize = baseSize + Math.random() * sizeVariation;
 
         myConfetti({
-          particleCount: 1,
+          particleCount: isDesktop ? 3 : 1,
           startVelocity: 0,
           ticks: 500,
           origin: {
