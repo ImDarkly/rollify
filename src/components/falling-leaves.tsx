@@ -26,7 +26,7 @@ const FallingLeaves = () => {
     const colors = ['#FFA500', '#FF8C00', '#FF7F50', '#FF6347', '#FF4500'];
 
     function frame() {
-      if (Math.random() < (isDesktop ? 0.5 : 0.01)) {
+      if (Math.random() < (isDesktop ? 0.05 : 0.01)) {
         const baseSize = 0.8;
         const sizeVariation = 0.4;
         const particleSize = baseSize + Math.random() * sizeVariation;
@@ -34,7 +34,7 @@ const FallingLeaves = () => {
         myConfetti({
           particleCount: 1,
           startVelocity: 0,
-          ticks: 500,
+          ticks: 1000,
           origin: {
             x: Math.random(),
             y: -0.1
