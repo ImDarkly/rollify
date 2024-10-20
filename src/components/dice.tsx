@@ -7,59 +7,59 @@ import MotionNumber from "motion-number";
 import { easeOut } from "framer-motion";
 import useDiceStore from "@/zustand/diceStore";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import UpdateDice from "./update-dice";
 
 interface DiceProps {
-    id: number;
-    min: number;
-    max: number;
-    value: number;
-    multiplier: number;
-    isLocked: boolean;
-    title: string;
+  id: number;
+  min: number;
+  max: number;
+  value: number;
+  multiplier: number;
+  isLocked: boolean;
+  title: string;
 }
 
 const Dice = ({
-    id,
-    min,
-    max,
-    value,
-    multiplier,
-    isLocked,
-    title,
+  id,
+  min,
+  max,
+  value,
+  multiplier,
+  isLocked,
+  title,
 }: DiceProps) => {
-    const toggleLock = useDiceStore((state) => state.toggleLock);
-    const removeDice = useDiceStore((state) => state.removeDice);
-    const { toast } = useToast();
-    const { undo } = useDiceStore.temporal.getState();
+  const toggleLock = useDiceStore((state) => state.toggleLock);
+  const removeDice = useDiceStore((state) => state.removeDice);
+  const { toast } = useToast();
+  const { undo } = useDiceStore.temporal.getState();
 
-    const handleRemove = (id: number) => {
-        removeDice(id);
-        toast({
-            title: "Dice Removed",
-            description: `Dice with value ${value} and range ${min}-${max} ${
-                multiplier > 1 ? `×${multiplier}` : ""
-            } has been removed.`,
-            action: (
-                <ToastAction
-                    altText="Undo"
-                    onClick={() => {
-                        undo();
-                    }}
-                >
-                    Undo
-                </ToastAction>
-            ),
-        });
-    };
+  const handleRemove = (id: number) => {
+    removeDice(id);
+    toast({
+      title: "Dice Removed",
+      description: `Dice with value ${value} and range ${min}-${max} ${
+        multiplier > 1 ? `×${multiplier}` : ""
+      } has been removed.`,
+      action: (
+        <ToastAction
+          altText="Undo"
+          onClick={() => {
+            undo();
+          }}
+        >
+          Undo
+        </ToastAction>
+      ),
+    });
+  };
 
     return (
         <DropdownMenu>

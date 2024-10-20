@@ -1,57 +1,62 @@
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/components/theme-provider";
+import { Theme, useTheme } from "@/components/theme-provider";
 import { Icon } from "@iconify/react";
-import { motion } from "framer-motion";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuRadioGroup,
+} from "./ui/dropdown-menu";
+import { Badge } from "./ui/badge";
 
 export function ModeToggle() {
-    const { theme, setTheme } = useTheme();
-    const MotionButton = motion.create(Button);
+  const { theme, setTheme } = useTheme();
+  const version = __APP_VERSION__;
+  const isProduction = import.meta.env.MODE === "production";
 
-    const handleToggle = () => {
-        if (theme === "light") {
-            setTheme("dark");
-        } else {
-            setTheme("light");
-        }
-    };
-
-    const diceMotion = {
-        rest: {
-            rotate: 0,
-            scale: 1,
-            transition: {
-                type: "spring",
-                stiffness: 250,
-                damping: 20,
-                duration: 1,
-            },
-        },
-        tap: {
-            rotate: 180,
-            scale: 0,
-        },
-    };
-
-    return (
-        <Tooltip delayDuration={300}>
-            <TooltipTrigger asChild>
-                <MotionButton
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleToggle}
-                    initial="tap"
-                    whileTap="tap"
-                    animate="rest"
-                >
-                    <motion.div variants={diceMotion}>
-                        <Icon icon="ri:dice-line" className="size-6" />
-                    </motion.div>
-                </MotionButton>
-            </TooltipTrigger>
-            <TooltipContent>
-                <p>Change theme</p>
-            </TooltipContent>
-        </Tooltip>
-    );
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <Icon icon="ri:dice-line" className="size-6" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>Switch Theme</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup
+          value={theme}
+          onValueChange={(newTheme) => setTheme(newTheme as Theme)}
+        >
+          <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem className="gap-2" value="pumpkin">
+            Pumpkin <Badge>New</Badge>
+          </DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownMenuSeparator />
+        {/* Footer Section */}
+        <div className="px-4 py-2 text-xs items-center flex flex-col">
+          <a
+            href="https://github.com/ImDarkly/rollify"
+            className="hover:decoration-solid hover:underline  text-foreground/75 hover:text-foreground"
+            target="_blank"
+          >
+            Rollify v{`${version}${isProduction ? null : "dev"}`}
+          </a>
+          <a
+            href="https://github.com/ImDarkly"
+            className="hover:decoration-solid hover:underline  text-foreground/75 hover:text-foreground"
+            target="_blank"
+          >
+            by ImDarkly
+          </a>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
