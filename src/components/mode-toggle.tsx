@@ -38,7 +38,7 @@ export function ModeToggle() {
                         Dark
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem className="gap-2" value="pumpkin">
-                        Pumpkin <Badge>New</Badge>
+                        Pumpkin
                     </DropdownMenuRadioItem>
                     <DropdownMenuRadioItem value="system">
                         System
