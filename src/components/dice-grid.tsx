@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import {
     DndContext,
+    DragEndEvent,
     PointerSensor,
     TouchSensor,
     useSensor,
@@ -15,14 +16,8 @@ import { SortableContext } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
 
 const DiceGrid = () => {
-    const dice = useDiceStore((state) => state.dice);
+    const { dice, diceOrder, reorderDice } = useDiceStore();
     const [isTouch, setIsTouch] = useState(false);
-    const diceArray = Object.entries(useDiceStore.getState().dice).map(
-        ([id, dice]) => ({
-            id: Number(id),
-            ...dice,
-        })
-    );
 
     const isTouchDevice = () => {
         return window.matchMedia("(pointer: coarse)").matches;
@@ -38,13 +33,20 @@ const DiceGrid = () => {
         setIsTouch(isTouchDevice());
     }, []);
 
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        if (over && active.id !== over.id) {
+            reorderDice(Number(active.id), Number(over.id));
+        }
+    };
+
     return (
-        <DndContext sensors={useSensors(sensor)}>
+        <DndContext sensors={useSensors(sensor)} onDragEnd={handleDragEnd}>
             <div className="flex-grow flex flex-wrap content-center justify-center items-center content-centergap-2 gap-2 max-w-screen-lg p-4">
                 <AnimatePresence>
-                    <SortableContext items={diceArray}>
-                        {Object.keys(dice).map((key) => {
-                            const diceId = parseInt(key, 10);
+                    <SortableContext items={Array.from(new Set(diceOrder))}>
+                        {diceOrder.map((diceId) => {
                             const {
                                 min,
                                 max,

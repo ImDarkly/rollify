@@ -38,8 +38,7 @@ const Dice = ({
     isLocked,
     title,
 }: DiceProps) => {
-    const toggleLock = useDiceStore((state) => state.toggleLock);
-    const removeDice = useDiceStore((state) => state.removeDice);
+    const { toggleLock, removeDice } = useDiceStore();
     const [isOpen, setIsOpen] = useState(false);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const { toast } = useToast();
