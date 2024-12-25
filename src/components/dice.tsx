@@ -60,7 +60,6 @@ const Dice = ({
     };
 
   const handleRemove = (id: number) => {
-    removeDice(id);
     toast({
       title: "Dice Removed",
       description: `Dice with value ${value} and range ${min}-${max} ${
@@ -77,6 +76,7 @@ const Dice = ({
         </ToastAction>
       ),
     });
+    removeDice(id);
   };
 
     const handleOpenChange = (open: boolean) => {
