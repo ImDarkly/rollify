@@ -8,13 +8,16 @@ This project was created in order to help people to roll dices with different ra
 
 ## Features
 
--   roll dices
--   set range
--   remove dices
--   lock dices
--   edit dices
--   save dices to localstorage
--   reorder dices
+-   Roll dice with custom min/max ranges
+- Set a multiplier per die
+- Edit dice configuration
+- Lock dice to freeze their value across rolls
+- Reorder dice via drag and drop
+- Undo / redo support
+- State persists to localStorage
+
+## Roadmap
+- [ ] Dice notation input (1d6x2, 2d4)
 
 ## Running Locally
 
