@@ -8,7 +8,7 @@ type Dice = {
   isLocked: boolean;
   multiplier: number;
   title: string;
-  hue: string;
+  hue: number;
 };
 
 type DiceSettings = {
