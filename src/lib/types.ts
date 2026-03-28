@@ -1,4 +1,4 @@
-export type Dice = {
+export type DiceType = {
   id: number;
   value: number;
   isLocked: boolean;
