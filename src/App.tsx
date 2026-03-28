@@ -29,7 +29,7 @@ function MainContent() {
         <div className="flex flex-grow items-center">
           <DiceGrid />
         </div>
-        {/* <BottomBar /> */}
+        <BottomBar />
         {theme === "pumpkin" && <FallingLeaves />}
       </div>
       <Toaster />
