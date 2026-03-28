@@ -9,11 +9,11 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SortableContext } from "@dnd-kit/sortable";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
 
 const DiceGrid = () => {
-  const { dice, updateDice } = useDiceStore();
+  const { dice, setDice } = useDiceStore();
   const [isTouch, setIsTouch] = useState(false);
 
   const isTouchDevice = () => {
@@ -34,7 +34,9 @@ const DiceGrid = () => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      // TODO: implement reorder
+      const oldIndex = dice.findIndex((d) => d.id === active.id);
+      const newIndex = dice.findIndex((d) => d.id === over.id);
+      setDice(arrayMove(dice, oldIndex, newIndex));
     }
   };
 
