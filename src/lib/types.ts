@@ -13,11 +13,12 @@ export type DiceConfig = {
 };
 
 export type DiceState = {
-  dice: Dice[];
+  dice: DiceType[];
 };
 
 export type DiceActions = {
   createDice: (config: DiceConfig) => void;
   removeDice: (id: number) => void;
-  updateDice: (id: number, updates: Partial<Dice>) => void;
+  updateDice: (id: number, updates: Partial<DiceType>) => void;
+  setDice: (dice: DiceType[]) => void;
 };
