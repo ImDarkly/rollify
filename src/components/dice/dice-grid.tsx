@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import Dice from "./dice";
+import Dice from "../dice";
 import useDiceStore from "@/zustand/diceStore";
 import {
   DndContext,
@@ -42,7 +42,7 @@ const DiceGrid = () => {
 
   return (
     <DndContext sensors={useSensors(sensor)} onDragEnd={handleDragEnd}>
-      <div className="flex-grow flex flex-wrap content-center justify-center items-center content-centergap-2 gap-2 max-w-screen-lg p-4">
+      <div className="flex-grow w-full flex flex-wrap content-center justify-center items-center content-centergap-2 gap-2 p-4">
         <AnimatePresence>
           <SortableContext items={dice.map((d) => d.id)}>
             {dice.map((d) => (
