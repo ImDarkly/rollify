@@ -6,81 +6,61 @@ import { Label } from "./ui/label";
 import { Switch } from "./ui/switch";
 import useDiceStore from "@/zustand/diceStore";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { DiceConfig } from "@/lib/types";
+import { Button } from "./ui/button";
 
 const DiceForm = ({ diceId }: { diceId?: number }) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const dice = useDiceStore((state) => state.dice);
-  const initialMultiplierEnabled = diceId ? dice[diceId].multiplier > 1 : false;
-  const [isMultiplierEnabled, setIsMultiplierEnabled] = useState(
-    initialMultiplierEnabled,
-  );
+  const createDice = useDiceStore((state) => state.createDice);
+
+  const [isMultiplierEnabled, setIsMultiplierEnabled] = useState(false);
   const [isTitleEdited, setIsTitleEdited] = useState(false);
-  const { diceSettings, updateDiceSettings } = useDiceStore();
+  const [config, setConfig] = useState<DiceConfig>({
+    min: 1,
+    max: 6,
+    multiplier: 1,
+    title: "1-6",
+  });
 
   useEffect(() => {
     if (!isTitleEdited) {
-      updateDiceSettings({
-        title: `${diceSettings.values.minimum}-${diceSettings.values.maximum}${
-          diceSettings.multiplier > 1 ? `×${diceSettings.multiplier}` : ""
+      setConfig((prev) => ({
+        ...prev,
+        title: `${config.min}-${config.max}${
+          config.multiplier > 1 ? `×${config.multiplier}` : ""
         }`,
-      });
+      }));
     }
-  }, [
-    diceSettings.multiplier,
-    diceSettings.values.minimum,
-    diceSettings.values.maximum,
-    isTitleEdited,
-    updateDiceSettings,
-  ]);
-
-  useEffect(() => {
-    if (diceId) {
-      updateDiceSettings({
-        title: dice[diceId].title,
-        values: {
-          minimum: dice[diceId].min,
-          maximum: dice[diceId].max,
-        },
-        multiplier: dice[diceId].multiplier,
-      });
-    }
-  }, [dice, diceId, updateDiceSettings]);
+  }, [config.min, config.max, config.multiplier, isTitleEdited]);
 
   const handleDiceSettingsChange = (
-    key: "minimum" | "maximum" | "multiplier",
+    key: "min" | "max" | "multiplier",
     value: number,
   ) => {
-    if (key === "multiplier") {
-      updateDiceSettings({ multiplier: value });
-    } else {
-      updateDiceSettings({
-        values: {
-          ...diceSettings.values,
-          [key]: value,
-        },
-      });
-    }
+    setConfig((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSliderChange = (values: [number, number]) => {
-    updateDiceSettings({
-      values: { minimum: values[0], maximum: values[1] },
-    });
+    setConfig((prev) => ({ ...prev, min: values[0], max: values[1] }));
   };
 
   const handleMultiplierToggle = () => {
     setIsMultiplierEnabled((prev) => {
-      const isTogglingOff = prev;
-      updateDiceSettings({
-        multiplier: isTogglingOff ? 1 : diceSettings.multiplier,
-      });
+      setConfig((c) => ({ ...c, multiplier: prev ? 1 : c.multiplier }));
       return !prev;
     });
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsTitleEdited(true);
-    updateDiceSettings({ title: e.target.value });
+    setConfig((prev) => ({ ...prev, title: e.target.value }));
+  };
+
+  const handleSubmit = () => {
+    createDice({
+      ...config,
+      multiplier: isMultiplierEnabled ? config.multiplier : 1,
+    });
   };
 
   return (
@@ -91,7 +71,7 @@ const DiceForm = ({ diceId }: { diceId?: number }) => {
           <Input
             type="text"
             className="w-full text-left"
-            value={diceSettings.title}
+            value={config.title}
             onChange={handleTitleChange}
             onFocus={(e) => e.target.select()}
           />
@@ -105,22 +85,16 @@ const DiceForm = ({ diceId }: { diceId?: number }) => {
                   <Input
                     type="number"
                     placeholder="Minimal value"
-                    value={diceSettings.values.minimum}
+                    value={config.min}
                     onChange={(e) =>
-                      handleDiceSettingsChange(
-                        "minimum",
-                        Number(e.target.value),
-                      )
+                      handleDiceSettingsChange("min", Number(e.target.value))
                     }
                     className="text-md"
                     onFocus={(e) => e.target.select()}
                   />
                   {isDesktop && (
                     <RangeSlider
-                      value={[
-                        diceSettings.values.minimum,
-                        diceSettings.values.maximum,
-                      ]}
+                      value={[config.min, config.max]}
                       max={20}
                       step={1}
                       onValueChange={handleSliderChange}
@@ -129,12 +103,9 @@ const DiceForm = ({ diceId }: { diceId?: number }) => {
                   <Input
                     type="number"
                     placeholder="Maximum value"
-                    value={diceSettings.values.maximum}
+                    value={config.max}
                     onChange={(e) =>
-                      handleDiceSettingsChange(
-                        "maximum",
-                        Number(e.target.value),
-                      )
+                      handleDiceSettingsChange("max", Number(e.target.value))
                     }
                     className="text-md"
                     onFocus={(e) => e.target.select()}
@@ -143,10 +114,7 @@ const DiceForm = ({ diceId }: { diceId?: number }) => {
 
                 {!isDesktop && (
                   <RangeSlider
-                    value={[
-                      diceSettings.values.minimum,
-                      diceSettings.values.maximum,
-                    ]}
+                    value={[config.min, config.max]}
                     max={20}
                     step={1}
                     onValueChange={handleSliderChange}
@@ -165,7 +133,7 @@ const DiceForm = ({ diceId }: { diceId?: number }) => {
                 <Input
                   type="number"
                   placeholder="Multiplier"
-                  value={isMultiplierEnabled ? diceSettings.multiplier : 1}
+                  value={isMultiplierEnabled ? config.multiplier : 1}
                   onChange={(e) =>
                     handleDiceSettingsChange(
                       "multiplier",
@@ -189,6 +157,7 @@ const DiceForm = ({ diceId }: { diceId?: number }) => {
             />
           </div>
         </div>
+        <Button onClick={handleSubmit}>Add dice</Button>
       </div>
     </div>
   );
