@@ -5,12 +5,10 @@ import { RangeSlider } from "../ui/range-slider";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import useDiceStore from "@/zustand/diceStore";
-import useMediaQuery from "@/hooks/useMediaQuery";
 import { DiceConfig } from "@/lib/types";
 import { Button } from "../ui/button";
 
 const DiceForm = () => {
-  const isMobile = useMediaQuery("(min-width: 600px)");
   const createDice = useDiceStore((state) => state.createDice);
 
   const [isMultiplierEnabled, setIsMultiplierEnabled] = useState(false);
@@ -61,10 +59,17 @@ const DiceForm = () => {
       ...config,
       multiplier: isMultiplierEnabled ? config.multiplier : 1,
     });
+
+    setConfig({
+      min: 1,
+      max: 6,
+      multiplier: 1,
+      title: "1-6",
+    });
   };
 
   return (
-    <div className="flex px-4 sm:px-0 p-4 gap-4">
+    <div className="@container flex gap-4">
       <div className="flex flex-col flex-grow gap-8">
         <div className="flex gap-2 flex-col">
           <Label>Title</Label>
@@ -92,14 +97,13 @@ const DiceForm = () => {
                     className="text-md"
                     onFocus={(e) => e.target.select()}
                   />
-                  {isMobile && (
-                    <RangeSlider
-                      value={[config.min, config.max]}
-                      max={20}
-                      step={1}
-                      onValueChange={handleSliderChange}
-                    />
-                  )}
+                  <RangeSlider
+                    value={[config.min, config.max]}
+                    max={20}
+                    step={1}
+                    onValueChange={handleSliderChange}
+                    className="hidden visible"
+                  />
                   <Input
                     type="number"
                     placeholder="Maximum value"
@@ -112,14 +116,13 @@ const DiceForm = () => {
                   />
                 </div>
 
-                {!isMobile && (
-                  <RangeSlider
-                    value={[config.min, config.max]}
-                    max={20}
-                    step={1}
-                    onValueChange={handleSliderChange}
-                  />
-                )}
+                <RangeSlider
+                  value={[config.min, config.max]}
+                  max={20}
+                  step={1}
+                  onValueChange={handleSliderChange}
+                  className="visible @sm:hidden"
+                />
               </div>
               <div className="flex items-center gap-4 sm:gap-2">
                 <span>
