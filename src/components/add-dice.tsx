@@ -6,17 +6,17 @@ import React from "react";
 import DiceDrawer from "./dice-drawer";
 
 interface AddDiceProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 const AddDice: React.FC<AddDiceProps> = ({ children }) => {
-    const isDesktop = useMediaQuery("(min-width: 768px)");
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
-    return isDesktop ? (
-        <DiceDialog>{children}</DiceDialog>
-    ) : (
-        <DiceDrawer>{children}</DiceDrawer>
-    );
+  return isDesktop ? (
+    <DiceDialog>{children}</DiceDialog>
+  ) : (
+    <DiceDrawer>{children}</DiceDrawer>
+  );
 };
 
 export default AddDice;

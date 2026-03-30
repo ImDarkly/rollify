@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { Input } from "./ui/input";
-import { RangeSlider } from "./ui/range-slider";
-import { Label } from "./ui/label";
-import { Switch } from "./ui/switch";
+import { Input } from "../ui/input";
+import { RangeSlider } from "../ui/range-slider";
+import { Label } from "../ui/label";
+import { Switch } from "../ui/switch";
 import useDiceStore from "@/zustand/diceStore";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { DiceConfig } from "@/lib/types";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
-const DiceForm = ({ diceId }: { diceId?: number }) => {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+const DiceForm = () => {
+  const isMobile = useMediaQuery("(min-width: 600px)");
   const createDice = useDiceStore((state) => state.createDice);
 
   const [isMultiplierEnabled, setIsMultiplierEnabled] = useState(false);
@@ -92,7 +92,7 @@ const DiceForm = ({ diceId }: { diceId?: number }) => {
                     className="text-md"
                     onFocus={(e) => e.target.select()}
                   />
-                  {isDesktop && (
+                  {isMobile && (
                     <RangeSlider
                       value={[config.min, config.max]}
                       max={20}
@@ -112,7 +112,7 @@ const DiceForm = ({ diceId }: { diceId?: number }) => {
                   />
                 </div>
 
-                {!isDesktop && (
+                {!isMobile && (
                   <RangeSlider
                     value={[config.min, config.max]}
                     max={20}
