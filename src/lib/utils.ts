@@ -7,5 +7,5 @@ export function cn(...inputs: ClassValue[]) {
 
 export const getDefaultTheme = () => {
   const today = new Date();
-  return today.getMonth() === 9 ? "pumpkin" : "system";
+  return today.getMonth() === 9 ? "light" : "system";
 };

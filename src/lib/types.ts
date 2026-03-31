@@ -1,4 +1,4 @@
-export type DiceType = {
+export type DieType = {
   id: number;
   value: number;
   isLocked: boolean;
@@ -14,12 +14,12 @@ export type DiceConfig = {
 };
 
 export type DiceState = {
-  dice: DiceType[];
+  dice: DieType[];
 };
 
 export type DiceActions = {
   createDice: (config: DiceConfig) => void;
   removeDice: (id: number) => void;
-  updateDice: (id: number, updates: Partial<DiceType>) => void;
-  setDice: (dice: DiceType[]) => void;
+  updateDice: (id: number, updates: Partial<DieType>) => void;
+  setDice: (dice: DieType[]) => void;
 };

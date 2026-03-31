@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { temporal } from "zundo";
 import { persist } from "zustand/middleware";
-import { DiceActions, DiceConfig, DiceState, DiceType } from "@/lib/types";
+import { DiceActions, DiceConfig, DiceState, DieType } from "@/lib/types";
 import { generateDiceColor } from "@/lib/diceColor";
 
 const useDiceStore = create<DiceState & DiceActions>()(
@@ -37,7 +37,7 @@ const useDiceStore = create<DiceState & DiceActions>()(
               d.id === id ? { ...d, ...updates } : d,
             ),
           })),
-        setDice: (dice: DiceType[]) => set({ dice }),
+        setDice: (dice: DieType[]) => set({ dice }),
       }),
       {
         name: "diceState",

@@ -1,11 +1,11 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { DiceType } from "@/lib/types";
+import { DieType } from "@/lib/types";
 import { easeOut } from "framer-motion";
 import MotionNumber from "motion-number";
 
 interface DiceProps {
-  dice: DiceType;
+  dice: DieType;
 }
 
 const Dice = ({ dice }: DiceProps) => {

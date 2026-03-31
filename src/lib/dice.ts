@@ -1,6 +1,6 @@
-import { Dice } from "./types";
+import { DieType } from "./types";
 
-export const rollDice = (dice: Dice): number => {
-  const { min, max, multiplier } = dice.config;
+export const rollDice = (die: DieType): number => {
+  const { min, max, multiplier } = die.config;
   return (Math.floor(Math.random() * (max - min + 1)) + min) * multiplier;
 };
