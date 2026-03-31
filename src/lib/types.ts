@@ -3,6 +3,7 @@ export type DiceType = {
   value: number;
   isLocked: boolean;
   config: DiceConfig;
+  hue: number;
 };
 
 export type DiceConfig = {

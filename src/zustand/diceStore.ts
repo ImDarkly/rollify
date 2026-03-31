@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { temporal } from "zundo";
 import { persist } from "zustand/middleware";
 import { DiceActions, DiceConfig, DiceState, DiceType } from "@/lib/types";
+import { generateDiceColor } from "@/lib/diceColor";
 
 const useDiceStore = create<DiceState & DiceActions>()(
   temporal(
@@ -19,6 +20,7 @@ const useDiceStore = create<DiceState & DiceActions>()(
                   value: 0,
                   isLocked: false,
                   config,
+                  hue: generateDiceColor(state.dice.map((d) => d.hue)),
                 },
               ],
             };

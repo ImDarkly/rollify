@@ -28,12 +28,16 @@ const Dice = ({ dice }: DiceProps) => {
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{
+        ...style,
+        backgroundColor: `hsl(${dice.hue}, 40%, 70%)`,
+        color: `hsl(${dice.hue}, 40%, 20%)`,
+      }}
       {...attributes}
       {...listeners}
-      className="flex select-none justify-center items-center flex-col z-50 size-16 bg-secondary rounded-2xl"
+      className="flex select-none justify-center items-center flex-col z-50 size-16 rounded-2xl"
     >
-      <p className="text-xs text-secondary-foreground/60 whitespace-normal text-center">
+      <p className="text-xs opacity-60 whitespace-normal text-center">
         {dice.config.title}
       </p>
       <p className="text-xl font-bold">
