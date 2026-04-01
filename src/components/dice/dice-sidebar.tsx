@@ -9,6 +9,7 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import DiceForm from "./dice-form";
+import DiceList from "./dice-list";
 
 export default function DiceSidebar() {
   return (
@@ -29,6 +30,7 @@ export default function DiceSidebar() {
         </SidebarGroup>
         <SidebarGroup>
           <SidebarGroupLabel>Collection</SidebarGroupLabel>
+          <DiceList />
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
