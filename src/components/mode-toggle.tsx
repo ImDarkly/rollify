@@ -20,7 +20,7 @@ export function ModeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <SidebarMenuButton size="lg">
-          <Icon icon="ri:dice-line" className="size-6" />
+          <Icon icon="ri:dice-line" />
           <span className="text-base font-semibold">Rollify</span>
         </SidebarMenuButton>
       </DropdownMenuTrigger>

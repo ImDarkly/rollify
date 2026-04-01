@@ -4,7 +4,6 @@ import TopBar from "./components/header";
 import { Toaster } from "./components/ui/toaster";
 import DiceGrid from "./components/dice/dice-grid";
 import { TooltipProvider } from "./components/ui/tooltip";
-import FallingLeaves from "./components/falling-leaves";
 import { getDefaultTheme } from "./lib/utils";
 import DiceSidebar from "./components/dice/dice-sidebar";
 import { SidebarInset, SidebarProvider } from "./components/ui/sidebar";
@@ -24,7 +23,7 @@ function App() {
 function MainContent() {
   return (
     <>
-      <SidebarProvider>
+      <SidebarProvider defaultOpen={false}>
         <DiceSidebar />
         <SidebarInset>
           <TopBar />
