@@ -1,8 +1,11 @@
+import AppFooterLinks from "../app-footer-links";
 import { ModeToggle } from "../mode-toggle";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
+  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
@@ -20,19 +23,19 @@ export default function DiceSidebar() {
             <ModeToggle />
           </SidebarMenuItem>
         </SidebarMenu>
+        <DiceForm />
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Create</SidebarGroupLabel>
-          <div className="px-2">
-            <DiceForm />
-          </div>
-        </SidebarGroup>
+      <SidebarContent className="overlay-scroll">
         <SidebarGroup>
           <SidebarGroupLabel>Collection</SidebarGroupLabel>
-          <DiceList />
+          <SidebarGroupContent>
+            <DiceList />
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <AppFooterLinks />
+      </SidebarFooter>
     </Sidebar>
   );
 }

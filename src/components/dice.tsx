@@ -35,7 +35,7 @@ const Dice = ({ dice }: DiceProps) => {
       }}
       {...attributes}
       {...listeners}
-      className="flex select-none justify-center items-center flex-col z-50 size-16 rounded-2xl"
+      className={`flex select-none justify-center items-center flex-col z-50 size-16 rounded-2xl transition-opacity ${dice.isLocked ? "opacity-30" : "opacity-100"}`}
     >
       <p className="text-xs opacity-60 whitespace-normal text-center">
         {dice.config.title}

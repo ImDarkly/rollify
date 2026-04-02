@@ -7,7 +7,7 @@ export default function DiceList() {
     dice: state.dice,
   }));
 
-  const diceItems = dice.map((die) => <DiceListItem die={die} />);
+  const diceItems = dice.map((die) => <DiceListItem key={die.id} die={die} />);
 
   return <SidebarMenu>{diceItems}</SidebarMenu>;
 }
