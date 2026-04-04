@@ -30,8 +30,8 @@ const Dice = ({ dice }: DiceProps) => {
       ref={setNodeRef}
       style={{
         ...style,
-        backgroundColor: `hsl(${dice.hue}, 40%, 70%)`,
-        color: `hsl(${dice.hue}, 40%, 20%)`,
+        backgroundColor: `oklch(65% 0.1 ${dice.hue})`,
+        color: `oklch(30% 0.1 ${dice.hue})`,
       }}
       {...attributes}
       {...listeners}

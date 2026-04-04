@@ -9,29 +9,42 @@ import {
 import { SidebarMenuAction } from "../ui/sidebar";
 import { MoreHorizontal } from "lucide-react";
 import useDiceStore from "@/zustand/diceStore";
+import { useState } from "react";
 
 interface DiceListItemActionsProps {
   die: DieType;
+  onEdit: () => void;
 }
 
-export default function DiceListItemActions({ die }: DiceListItemActionsProps) {
+export default function DiceListItemActions({
+  die,
+  onEdit,
+}: DiceListItemActionsProps) {
   const { updateDice, removeDice } = useDiceStore((state) => ({
     updateDice: state.updateDice,
     removeDice: state.removeDice,
   }));
+  const [pendingEdit, setPendingEdit] = useState(false);
 
   const handleLockDice = () => {
     updateDice(die.id, { isLocked: !die.isLocked });
   };
 
-  const handleEditDice = () => {};
+  const handleEditDice = () => setPendingEdit(true);
 
   const handleDeleteDice = () => {
     removeDice(die.id);
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu
+      onOpenChange={(open) => {
+        if (!open && pendingEdit) {
+          setPendingEdit(false);
+          onEdit();
+        }
+      }}
+    >
       <DropdownMenuTrigger asChild>
         <SidebarMenuAction showOnHover>
           <MoreHorizontal />

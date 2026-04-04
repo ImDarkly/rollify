@@ -1,3 +1,4 @@
+import useDiceStore from "@/zustand/diceStore";
 import AppFooterLinks from "../app-footer-links";
 import { ModeToggle } from "../mode-toggle";
 import {
@@ -15,6 +16,10 @@ import DiceForm from "./dice-form";
 import DiceList from "./dice-list";
 
 export default function DiceSidebar() {
+  const { createDice } = useDiceStore((state) => ({
+    createDice: state.createDice,
+  }));
+
   return (
     <Sidebar variant="inset" collapsible="offcanvas">
       <SidebarHeader>
@@ -23,7 +28,7 @@ export default function DiceSidebar() {
             <ModeToggle />
           </SidebarMenuItem>
         </SidebarMenu>
-        <DiceForm />
+        <DiceForm onSubmit={(config) => createDice(config)} />
       </SidebarHeader>
       <SidebarContent className="overlay-scroll">
         <SidebarGroup>

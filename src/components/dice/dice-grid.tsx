@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import Dice from "../dice";
+import Dice from "./dice";
 import useDiceStore from "@/zustand/diceStore";
 import {
   DndContext,
