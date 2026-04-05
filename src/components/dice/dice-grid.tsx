@@ -26,6 +26,8 @@ const DiceGrid = () => {
     },
   });
 
+  const sensors = useSensors(sensor);
+
   useEffect(() => {
     setIsTouch(isTouchDevice());
   }, []);
@@ -41,8 +43,13 @@ const DiceGrid = () => {
   };
 
   return (
-    <DndContext sensors={useSensors(sensor)} onDragEnd={handleDragEnd}>
-      <div className="flex-grow w-full flex flex-wrap content-center justify-center items-center content-centergap-2 gap-2 p-4 bg-card rounded-xl">
+    <DndContext
+      sensors={sensors}
+      onDragEnd={handleDragEnd}
+      onDragStart={(e) => console.log("drag start", e)}
+      onDragMove={(e) => console.log("drag move", e.delta)}
+    >
+      <div className="flex-grow w-full flex flex-wrap content-center justify-center items-center gap-2 p-4 bg-card rounded-xl">
         <AnimatePresence>
           <SortableContext items={dice.map((d) => d.id)}>
             {dice.map((d) => (

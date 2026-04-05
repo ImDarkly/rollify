@@ -19,7 +19,7 @@ const Dice = ({ dice }: DiceProps) => {
   } = useSortable({ id: dice.id });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Translate.toString(transform),
     transition,
     zIndex: isDragging ? 1000 : "auto",
     position: "relative" as const,
@@ -32,6 +32,7 @@ const Dice = ({ dice }: DiceProps) => {
         ...style,
         backgroundColor: `oklch(65% 0.1 ${dice.hue})`,
         color: `oklch(30% 0.1 ${dice.hue})`,
+        touchAction: "none",
       }}
       {...attributes}
       {...listeners}

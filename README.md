@@ -8,7 +8,7 @@ This project was created in order to help people to roll dices with different ra
 
 ## Features
 
--   Roll dice with custom min/max ranges
+- Roll dice with custom min/max ranges
 - Set a multiplier per die
 - Edit dice configuration
 - Lock dice to freeze their value across rolls

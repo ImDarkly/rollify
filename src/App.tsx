@@ -1,7 +1,6 @@
-import BottomBar from "./components/bottom-bar";
-import { ThemeProvider, useTheme } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 import TopBar from "./components/header";
-import { Toaster } from "./components/ui/toaster";
+import { Toaster } from "./components/ui/sonner";
 import DiceGrid from "./components/dice/dice-grid";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { getDefaultTheme } from "./lib/utils";
@@ -34,6 +33,7 @@ function MainContent() {
           </div>
         </SidebarInset>
       </SidebarProvider>
+      <Toaster />
     </>
   );
 }

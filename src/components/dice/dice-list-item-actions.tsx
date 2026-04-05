@@ -10,6 +10,7 @@ import { SidebarMenuAction } from "../ui/sidebar";
 import { MoreHorizontal } from "lucide-react";
 import useDiceStore from "@/zustand/diceStore";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface DiceListItemActionsProps {
   die: DieType;
@@ -25,6 +26,7 @@ export default function DiceListItemActions({
     removeDice: state.removeDice,
   }));
   const [pendingEdit, setPendingEdit] = useState(false);
+  const undo = useDiceStore.temporal.getState().undo;
 
   const handleLockDice = () => {
     updateDice(die.id, { isLocked: !die.isLocked });
@@ -34,6 +36,12 @@ export default function DiceListItemActions({
 
   const handleDeleteDice = () => {
     removeDice(die.id);
+    toast.warning(`Deleted ${die.config.title}`, {
+      action: {
+        label: "Undo",
+        onClick: () => undo(),
+      },
+    });
   };
 
   return (
