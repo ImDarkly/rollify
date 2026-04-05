@@ -153,3 +153,21 @@
         appearance: textfield;
     }
 }
+
+.overlay-scroll {
+    overflow: auto;
+}
+
+.overlay-scroll::-webkit-scrollbar {
+    width: 8px;
+    position: absolute;
+}
+
+.overlay-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.overlay-scroll::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 4px;
+}

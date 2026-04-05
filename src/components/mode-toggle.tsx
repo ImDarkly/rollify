@@ -13,8 +13,6 @@ import { SidebarMenuButton } from "./ui/sidebar";
 
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
-  const version = __APP_VERSION__;
-  const isProduction = import.meta.env.MODE === "production";
 
   return (
     <DropdownMenu>
@@ -35,24 +33,6 @@ export function ModeToggle() {
           <DropdownMenuRadioItem value="dark">Dark</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="system">System</DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
-        <DropdownMenuSeparator />
-        {/* Footer Section */}
-        <div className="px-4 py-2 text-xs items-center flex flex-col">
-          <a
-            href="https://github.com/ImDarkly/rollify"
-            className="hover:decoration-solid hover:underline  text-foreground/75 hover:text-foreground"
-            target="_blank"
-          >
-            Rollify v{`${version}${isProduction ? "" : "dev"}`}
-          </a>
-          <a
-            href="https://github.com/ImDarkly"
-            className="hover:decoration-solid hover:underline  text-foreground/75 hover:text-foreground"
-            target="_blank"
-          >
-            by ImDarkly
-          </a>
-        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

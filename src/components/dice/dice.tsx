@@ -19,7 +19,7 @@ const Dice = ({ dice }: DiceProps) => {
   } = useSortable({ id: dice.id });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Translate.toString(transform),
     transition,
     zIndex: isDragging ? 1000 : "auto",
     position: "relative" as const,
@@ -30,12 +30,13 @@ const Dice = ({ dice }: DiceProps) => {
       ref={setNodeRef}
       style={{
         ...style,
-        backgroundColor: `hsl(${dice.hue}, 40%, 70%)`,
-        color: `hsl(${dice.hue}, 40%, 20%)`,
+        backgroundColor: `oklch(65% 0.1 ${dice.hue})`,
+        color: `oklch(30% 0.1 ${dice.hue})`,
+        touchAction: "none",
       }}
       {...attributes}
       {...listeners}
-      className="flex select-none justify-center items-center flex-col z-50 size-16 rounded-2xl"
+      className={`flex select-none justify-center items-center flex-col z-50 size-16 rounded-2xl transition-opacity ${dice.isLocked ? "opacity-30" : "opacity-100"}`}
     >
       <p className="text-xs opacity-60 whitespace-normal text-center">
         {dice.config.title}
